@@ -42,6 +42,7 @@ export default function MortgageCalculator() {
   };
 
   const calculateMortgage = async () => {
+    console.log("Calculating mortgage...");
     setLoading(true);
     setError(null);
     
@@ -53,15 +54,22 @@ export default function MortgageCalculator() {
         },
         body: JSON.stringify(formData),
       });
+
+      const responseData = await response.json();
+      console.log("API Response:", responseData);
       
       if (!response.ok) {
-        throw new Error("Calculation failed");
+        throw new Error(responseData.message || "Calculation failed");
       }
       
-      const result: MortgageResult = await response.json();
+      const result: MortgageResult = responseData;
       setResult(result);
     } catch (err) {
-      setError("Failed to calculate mortgage. Please check your inputs.");
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("An unknown error occurred.");
+      }
     } finally {
       setLoading(false);
     }
@@ -132,7 +140,7 @@ export default function MortgageCalculator() {
               <Home className="w-8 h-8 text-white" />
             </div>
             <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-              Prairie Home Calculator
+              <a href="https://portal.wpeg.ca" title="WPEG" target="_blank" rel="noopener noreferrer" className="hover:underline">WPEG: Prairie Home Calculator</a>
             </h1>
           </div>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-4">
@@ -279,7 +287,7 @@ export default function MortgageCalculator() {
                 </label>
                 <select
                   value={formData.propertyType}
-                  onChange={(e) => handleInputChange('propertyType', e.target.value as any)}
+                  onChange={(e) => handleInputChange('propertyType', e.target.value as string)}
                   className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white"
                 >
                   <option value="single-family">Single Family Home</option>
@@ -296,7 +304,7 @@ export default function MortgageCalculator() {
                 </label>
                 <select
                   value={formData.heatingType}
-                  onChange={(e) => handleInputChange('heatingType', e.target.value as any)}
+                  onChange={(e) => handleInputChange('heatingType', e.target.value as string)}
                   className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white"
                 >
                   <option value="gas">Natural Gas</option>
@@ -535,6 +543,11 @@ export default function MortgageCalculator() {
               </p>
             </div>
           </div>
+
+        <div className="mt-16 bg-gray-50 rounded-3xl p-8 border border-gray-200">
+          <div className="max-w-4xl mx-auto"><a href="https://portal.wpeg.ca" title="WPEG" target="_blank" rel="noopener noreferrer" className="hover:underline">&laquo; &laquo; Back to WPEG</a></div>
+        </div>
+
         </div>
       </div>
     </div>

@@ -1,5 +1,10 @@
 import { serve } from '@hono/node-server'
-import app from './src/worker'
+import { Hono } from 'hono'
+import worker from './src/worker'
+
+const app = new Hono()
+
+app.route('/api', worker)
 
 serve({
   fetch: app.fetch,

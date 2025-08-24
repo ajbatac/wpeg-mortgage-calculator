@@ -48,7 +48,7 @@ function getAffordabilityRating(totalMonthlyCost: number, assumedIncome: number)
   return "poor";
 }
 
-app.post("/api/calculate-mortgage", zValidator("json", MortgageCalculationSchema), (c) => {
+app.post("/calculate-mortgage", zValidator("json", MortgageCalculationSchema), (c) => {
   const data = c.req.valid("json");
   
   const principalAmount = data.propertyValue - data.downPayment;
@@ -107,7 +107,7 @@ app.post("/api/calculate-mortgage", zValidator("json", MortgageCalculationSchema
 });
 
 // Get current Winnipeg market data
-app.get("/api/winnipeg-data", (c) => {
+app.get("/winnipeg-data", (c) => {
   return c.json(winnipegData);
 });
 

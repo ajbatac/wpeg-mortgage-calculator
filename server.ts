@@ -2,17 +2,26 @@ import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
 import { serveStatic } from '@hono/node-server/serve-static'
 import api from './src/worker'
+import fs from 'fs'
+import path from 'path'
 
 const app = new Hono()
 
-// API routes
+// 1. API routes are highest priority
 app.route('/api', api)
 
-// Static assets (ensure this comes before the SPA fallback)
-app.use('/assets/*', serveStatic({ root: './dist' }))
+// 2. Serve static files from the 'dist' directory
+app.use('*', serveStatic({ root: './dist' }))
 
-// SPA fallback: serve index.html for any other GET request
-app.get('*', serveStatic({ path: './dist/index.html' }))
+// 3. SPA fallback: for any request that doesn't match a static file, serve index.html
+app.get('*', (c) => {
+  const indexPath = path.join(process.cwd(), 'dist', 'index.html');
+  if (fs.existsSync(indexPath)) {
+    const html = fs.readFileSync(indexPath, 'utf-8');
+    return c.html(html);
+  }
+  return c.text('Frontend not found. Please run `npm run build`', 404);
+})
 
 serve({
   fetch: app.fetch,

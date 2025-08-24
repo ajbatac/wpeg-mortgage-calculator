@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import { zValidator } from "@hono/zod-validator";
-import { MortgageCalculationSchema, type MortgageResult, type WinnipegPropertyData } from "../shared/types";
+import { MortgageCalculationSchema, type MortgageResult, type WinnipegPropertyData, type Env } from "../shared/types";
 
 const app = new Hono<{ Bindings: Env }>();
 

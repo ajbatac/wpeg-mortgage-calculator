@@ -20,8 +20,13 @@ export default function MortgageCalculator() {
 
   // Fetch Winnipeg market data on component mount
   useEffect(() => {
-    fetch("/api/winnipeg-data")
-      .then(res => res.json())
+    fetch("/api/winnipeg-data", { cache: "no-cache" })
+      .then(res => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        return res.json();
+      })
       .then((data: WinnipegPropertyData) => {
         setWinnipegData(data);
         setFormData(prev => ({
@@ -29,8 +34,9 @@ export default function MortgageCalculator() {
           interestRate: data.currentInterestRates.fixed5Year
         }));
       })
-      .catch(() => {
-        setError("Failed to load current market data");
+      .catch((err) => {
+        console.error("Error fetching Winnipeg data:", err);
+        setError("Failed to load current market data. See console for details.");
       });
   }, []);
 

@@ -38,6 +38,7 @@
     "dev": "concurrently \"npm:dev:api\" \"npm:dev:ui\"",
     "dev:api": "tsx watch server.ts",
     "dev:ui": "vite",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "start": "tsx server.ts"
   }
 }

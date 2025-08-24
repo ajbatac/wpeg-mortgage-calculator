@@ -6,7 +6,6 @@ export default defineConfig({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   plugins: [react()],
   server: {
-    allowedHosts: true,
     proxy: {
       '/api': {
         target: 'http://localhost:3001',

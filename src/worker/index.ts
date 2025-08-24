@@ -2,7 +2,7 @@ import { Hono } from "hono";
 import { zValidator } from "@hono/zod-validator";
 import { MortgageCalculationSchema, type MortgageResult, type WinnipegPropertyData } from "../shared/types";
 
-const app = new Hono();
+const app = new Hono<{ Bindings: Env }>();
 
 // Winnipeg-specific property data
 const winnipegData: WinnipegPropertyData = {

@@ -1,4 +1,4 @@
-## WPEG Prairie Home Calculator
+## Prairie Home Calculator / Winnipeg Mortgage Calculator
 
 To run the devserver:
 ```

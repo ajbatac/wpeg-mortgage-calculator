@@ -45,5 +45,3 @@ export const WinnipegPropertyDataSchema = z.object({
 });
 
 export type WinnipegPropertyData = z.infer<typeof WinnipegPropertyDataSchema>;
-
-export type Env = Record<string, unknown>;

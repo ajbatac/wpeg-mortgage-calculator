@@ -1,11 +1,7 @@
-import { Hono } from "hono";
-import { zValidator } from "@hono/zod-validator";
-import { MortgageCalculationSchema, type MortgageResult, type WinnipegPropertyData, type Env } from "../shared/types";
-
-const app = new Hono<{ Bindings: Env }>();
+import type { MortgageCalculation, MortgageResult, WinnipegPropertyData } from "./types";
 
 // Winnipeg-specific property data
-const winnipegData: WinnipegPropertyData = {
+export const winnipegData: WinnipegPropertyData = {
   averagePropertyTaxRate: 2.35, // Winnipeg's average property tax rate as percentage
   averageInsuranceRate: 0.3, // Average home insurance as percentage of property value annually
   currentInterestRates: {
@@ -48,9 +44,7 @@ function getAffordabilityRating(totalMonthlyCost: number, assumedIncome: number)
   return "poor";
 }
 
-app.post("/calculate-mortgage", zValidator("json", MortgageCalculationSchema), (c) => {
-  const data = c.req.valid("json");
-  
+export function calculateMortgage(data: MortgageCalculation): MortgageResult {
   const principalAmount = data.propertyValue - data.downPayment;
   const cmhcInsurance = calculateCMHCInsurance(data.propertyValue, data.downPayment);
   const totalLoanAmount = principalAmount + cmhcInsurance;
@@ -103,12 +97,5 @@ app.post("/calculate-mortgage", zValidator("json", MortgageCalculationSchema), (
     warnings,
   };
   
-  return c.json(result);
-});
-
-// Get current Winnipeg market data
-app.get("/winnipeg-data", (c) => {
-  return c.json(winnipegData);
-});
-
-export default app;
+  return result;
+}

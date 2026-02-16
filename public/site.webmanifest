@@ -1,0 +1,21 @@
+{
+  "name": "WPEG: Prairie Home Calculator",
+  "short_name": "WPEG Calc",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#2563eb",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "start_url": "/",
+  "description": "Smart mortgage calculator designed for the Winnipeg real estate market."
+}

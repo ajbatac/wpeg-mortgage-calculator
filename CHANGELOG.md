@@ -113,6 +113,16 @@ Comprehensive architectural modernization, WPEG design system unification, Canad
   - Added Netlify security headers configuration (`CSP`, `HSTS`, `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, and asset cache policies).
   - Optimized OpenGraph and Twitter social card tags and preconnected font origins.
 
+### 8. Structured Data, Web Manifest & SEO Hardening (Phase E)
+- **File:** `index.html`
+  - Injected `schema.org/WebApplication` JSON-LD structured data for rich snippets in Google Search results.
+  - Optimized Google Fonts loading with DNS prefetch, preconnect, and font style preloading (`Inter` and `Lora`).
+- **File:** `public/site.webmanifest`
+  - Overhauled manifest metadata: updated application name to "Winnipeg Mortgage Calculator | WPEG.app", short name to "Mortgage WPEG", and theme colors to WPEG brand palette (`#524495`).
+- **Files:** `public/_headers`, `public/llms.txt`, `llms.txt`
+  - Updated CSP connect sources to permit Google Analytics 4 region endpoints and collectors.
+  - Documented Manitoba Land Transfer Tax scale, Canadian payment frequency models, and net assessment benchmarks in machine-readable LLM documentation.
+
 ---
 
 ## [v1.1.0] — 2026-10-01

@@ -1,6 +1,6 @@
 # WPEG Mortgage Calculator
 
-> Free, private, browser-based Canadian mortgage calculator tailored for Winnipeg, Manitoba, Canada. Computes monthly mortgage payments using official Canadian semi-annual compounding rules, calculates mandatory CMHC mortgage default insurance, validates federal minimum down payment rules, and estimates total homeownership costs (Winnipeg property taxes, heating, and home insurance) along with gross debt service (GDS) affordability metrics.
+> Free, private, browser-based Canadian mortgage calculator tailored for Winnipeg, Manitoba, Canada. Computes monthly mortgage payments using official Canadian semi-annual compounding rules, calculates mandatory CMHC mortgage default insurance, validates federal minimum down payment rules, computes Manitoba Land Transfer Tax (LTT) closing costs, and estimates total homeownership costs (Winnipeg property taxes, heating, and home insurance) along with gross debt service (GDS) affordability metrics.
 
 - Canonical URL: https://mortgage.wpeg.app/
 - Language: English (en-CA)
@@ -18,6 +18,13 @@
 ## Calculation parameters & standards
 
 - Canadian compounding: By Canadian law (Interest Act), Canadian fixed mortgages compound semi-annually, not monthly. Monthly effective rate = `(1 + annualRate / 2)^(2/12) - 1`.
+- Payment frequency options:
+  - Monthly (12 payments/year)
+  - Semi-Monthly (24 payments/year = monthly / 2)
+  - Regular Bi-Weekly (26 payments/year = monthly * 12 / 26)
+  - Accelerated Bi-Weekly (26 payments/year = monthly / 2; generates 1 extra monthly payment annually to accelerate loan payoff)
+  - Regular Weekly (52 payments/year = monthly * 12 / 52)
+  - Accelerated Weekly (52 payments/year = monthly / 4; generates 1 extra monthly payment annually)
 - Minimum down payment rules (Canada):
   - Up to $500,000: 5% minimum
   - $500,000 to $1,499,999: 5% on the first $500,000 + 10% on the portion above $500,000
@@ -30,15 +37,21 @@
   - LTV 85.01% to 90%: 3.10%
   - LTV 90.01% to 95%: 4.00%
   - Down payment >= 20%: Conventional mortgage, $0 insurance premium.
+- Manitoba Land Transfer Tax (LTT) sliding scale:
+  - $0 to $30,000: 0%
+  - $30,001 to $90,000: 0.5% (max $300)
+  - $90,001 to $150,000: 1.0% (max $600)
+  - $150,001 to $200,000: 1.5% (max $750)
+  - Over $200,000: 2.0%
+  - Base Manitoba Land Titles registration fee: $70
 - Winnipeg housing cost benchmarks:
-  - Property tax estimate: ~1.25% of property value annually based on City of Winnipeg mill rates.
+  - Property tax estimate: ~1.25% of property value annually based on City of Winnipeg mill rates and Manitoba's 45% residential assessment portioning factor.
   - Heating costs: Estimated at ~$150/month based on natural gas/electric winter heating demands in Manitoba.
-  - Home insurance: Estimated at ~$100/month for standard residential coverage.
+  - Home insurance: Estimated at ~$100–$140/month for standard residential coverage.
 - Affordability ratio (GDS):
-  - Gross Debt Service (GDS) benchmark threshold is 39% of gross monthly income, measuring Principal, Interest, Taxes, and Heating (PITH).
+  - Canadian Gross Debt Service (GDS) benchmark measures Principal, Interest, Taxes, and Heating (PITH) against monthly gross income. Recommended maximum threshold is 32% (or up to 39% with exceptional credit).
 
 ## Usage notes
 
 - Estimates only; does not replace formal underwriting from a licensed mortgage broker or financial institution.
 - All figures update in real-time as users adjust down payment, amortization, interest rate, and income.
-

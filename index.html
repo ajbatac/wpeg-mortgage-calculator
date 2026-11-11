@@ -13,9 +13,16 @@
     gtag('config', 'G-EK1TKDLE45');
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Font optimization -->
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,500;0,600;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,500;0,600;0,700;1,400&display=swap">
+
+  <!-- Favicons -->
   <link rel="icon" sizes="32x32" href="/favicon.ico">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -24,7 +31,11 @@
   <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
   <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
   <link rel="manifest" href="/site.webmanifest">
+
+  <!-- SEO & Canonical -->
   <link rel="canonical" href="https://mortgage.wpeg.app/">
+  <meta name="description"
+    content="Free, accurate mortgage calculator for Winnipeg, Manitoba. Computes Canadian semi-annual compounding, CMHC insurance, Manitoba Land Transfer Tax, and local homeownership costs." />
   <meta property="og:title" content="Winnipeg Mortgage Calculator | WPEG.app" />
   <meta property="og:description"
     content="Free, accurate mortgage calculator for Winnipeg, Manitoba. Computes Canadian semi-annual compounding, CMHC insurance, Manitoba Land Transfer Tax, and local homeownership costs." />
@@ -40,6 +51,35 @@
     content="Free, accurate mortgage calculator for Winnipeg, Manitoba. Computes Canadian semi-annual compounding, CMHC insurance, Manitoba Land Transfer Tax, and local homeownership costs." />
   <meta property="twitter:image" content="https://mortgage.wpeg.app/mortgage-wpeg-logo.png" />
   <title>Winnipeg Mortgage Calculator | WPEG.app</title>
+
+  <!-- Structured Data (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Winnipeg Mortgage Calculator",
+    "url": "https://mortgage.wpeg.app/",
+    "description": "Free, browser-based Canadian mortgage calculator tailored for Winnipeg, Manitoba. Computes monthly payments using Canadian semi-annual compounding, CMHC mortgage insurance, Manitoba Land Transfer Tax, and local property expenses.",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "All",
+    "browserRequirements": "Requires JavaScript. Requires HTML5.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "CAD"
+    },
+    "author": {
+      "@type": "Person",
+      "name": "AJ Batac",
+      "url": "https://portal.wpeg.app/"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "WPEG",
+      "url": "https://portal.wpeg.app/"
+    }
+  }
+  </script>
 </head>
 
 <body>

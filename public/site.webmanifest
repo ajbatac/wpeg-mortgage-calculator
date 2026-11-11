@@ -1,6 +1,6 @@
 {
-  "name": "WPEG: Prairie Home Calculator",
-  "short_name": "WPEG Calc",
+  "name": "Winnipeg Mortgage Calculator | WPEG.app",
+  "short_name": "Mortgage WPEG",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
@@ -13,9 +13,9 @@
       "type": "image/png"
     }
   ],
-  "theme_color": "#2563eb",
-  "background_color": "#ffffff",
+  "theme_color": "#524495",
+  "background_color": "#f8f7fc",
   "display": "standalone",
   "start_url": "/",
-  "description": "Smart mortgage calculator designed for the Winnipeg real estate market."
+  "description": "Free, browser-based Canadian mortgage calculator for Winnipeg, Manitoba. Computes semi-annual compounding, CMHC insurance, Land Transfer Tax, and local homeownership costs."
 }

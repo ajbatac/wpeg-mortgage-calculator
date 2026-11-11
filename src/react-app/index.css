@@ -2,6 +2,94 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+@layer base {
+  :root {
+    --background: 252 33% 97%;
+    --foreground: 251 21% 22%;
+    --card: 0 0% 100%;
+    --card-foreground: 251 21% 22%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 251 21% 22%;
+    --primary: 256 31% 47%;
+    --primary-foreground: 255 40% 98%;
+    --secondary: 254 41% 94%;
+    --secondary-foreground: 251 25% 28%;
+    --muted: 252 30% 94%;
+    --muted-foreground: 251 15% 42%;
+    --accent: 341 56% 66%;
+    --accent-foreground: 340 60% 16%;
+    --destructive: 0 62% 55%;
+    --destructive-foreground: 255 40% 98%;
+    --border: 251 22% 88%;
+    --input: 252 27% 94%;
+    --ring: 256 31% 47%;
+    --radius: 0.75rem;
+    --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.08), 0 1px 2px -1px rgb(0 0 0 / 0.08);
+  }
+
+  .dark {
+    --background: 252 25% 10%;
+    --foreground: 252 20% 95%;
+    --card: 252 25% 13%;
+    --card-foreground: 252 20% 95%;
+    --popover: 252 25% 13%;
+    --popover-foreground: 252 20% 95%;
+    --primary: 256 60% 65%;
+    --primary-foreground: 252 25% 10%;
+    --secondary: 252 20% 18%;
+    --secondary-foreground: 252 20% 95%;
+    --muted: 252 20% 18%;
+    --muted-foreground: 252 15% 65%;
+    --border: 252 20% 20%;
+    --input: 252 20% 20%;
+    --ring: 256 60% 65%;
+    --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.3), 0 1px 2px -1px rgb(0 0 0 / 0.3);
+  }
+
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-family: var(--font-sans, Inter, system-ui, sans-serif);
+  }
+}
+
+.theme-surface {
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  box-shadow: var(--shadow);
+}
+
+.theme-button {
+  border-radius: var(--radius);
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  box-shadow: var(--shadow);
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  transition-property: all;
+  transition-duration: 0.3s;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.theme-button:hover {
+  border-color: hsl(var(--primary) / 0.5);
+  transform: translateY(-1px);
+}
+
+.skip-link {
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  z-index: 100;
+  border-radius: 0 0 var(--radius) 0;
+  padding: 8px 16px;
+  font-weight: 600;
+  text-decoration: none;
+  position: absolute;
+  top: -40px;
+  left: 0;
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+  top: 0;
 }

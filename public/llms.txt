@@ -1,0 +1,43 @@
+# WPEG Mortgage Calculator
+
+> Free, private, browser-based Canadian mortgage calculator tailored for Winnipeg, Manitoba, Canada. Computes monthly mortgage payments using official Canadian semi-annual compounding rules, calculates mandatory CMHC mortgage default insurance, validates federal minimum down payment rules, and estimates total homeownership costs (Winnipeg property taxes, heating, and home insurance) along with gross debt service (GDS) affordability metrics.
+
+- Canonical URL: https://mortgage.wpeg.app/
+- Language: English (en-CA)
+- Currency: CAD
+- Author/Publisher: AJ Batac (WPEG)
+- Privacy: All calculations run entirely client-side in the browser; no personal financial data is stored or transmitted.
+
+## Key pages
+
+- Calculator: https://mortgage.wpeg.app/
+- Changelog (public release history): https://mortgage.wpeg.app/changelog
+- Changelog RSS feed: https://mortgage.wpeg.app/changelog/rss.xml
+- Parent portal: https://portal.wpeg.app/
+
+## Calculation parameters & standards
+
+- Canadian compounding: By Canadian law (Interest Act), Canadian fixed mortgages compound semi-annually, not monthly. Monthly effective rate = `(1 + annualRate / 2)^(2/12) - 1`.
+- Minimum down payment rules (Canada):
+  - Up to $500,000: 5% minimum
+  - $500,000 to $1,499,999: 5% on the first $500,000 + 10% on the portion above $500,000
+  - $1,500,000 and above: 20% minimum (non-insurable mortgage limit)
+- CMHC mortgage loan insurance rates:
+  - Loan-to-Value (LTV) up to 65%: 0.60%
+  - LTV 65.01% to 75%: 1.70%
+  - LTV 75.01% to 80%: 2.40%
+  - LTV 80.01% to 85%: 2.80%
+  - LTV 85.01% to 90%: 3.10%
+  - LTV 90.01% to 95%: 4.00%
+  - Down payment >= 20%: Conventional mortgage, $0 insurance premium.
+- Winnipeg housing cost benchmarks:
+  - Property tax estimate: ~1.25% of property value annually based on City of Winnipeg mill rates.
+  - Heating costs: Estimated at ~$150/month based on natural gas/electric winter heating demands in Manitoba.
+  - Home insurance: Estimated at ~$100/month for standard residential coverage.
+- Affordability ratio (GDS):
+  - Gross Debt Service (GDS) benchmark threshold is 39% of gross monthly income, measuring Principal, Interest, Taxes, and Heating (PITH).
+
+## Usage notes
+
+- Estimates only; does not replace formal underwriting from a licensed mortgage broker or financial institution.
+- All figures update in real-time as users adjust down payment, amortization, interest rate, and income.

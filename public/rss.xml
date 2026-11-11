@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>WPEG Mortgage Calculator Changelog</title>
+    <link>https://mortgage.wpeg.app/changelog</link>
+    <description>New features, fixes, and improvements to the Winnipeg Mortgage Calculator, newest first.</description>
+    <language>en-ca</language>
+    <atom:link href="https://mortgage.wpeg.app/changelog/rss.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>v1.2.0: Unified design, Canadian semi-annual compounding, and smart cost estimates</title>
+      <link>https://mortgage.wpeg.app/changelog#v1.2.0</link>
+      <guid isPermaLink="true">https://mortgage.wpeg.app/changelog#v1.2.0</guid>
+      <pubDate>Wed, 11 Nov 2026 21:00:00 +0000</pubDate>
+      <description><![CDATA[<p>A major quality-of-life update bringing a unified WPEG look and feel, smarter calculations, and a richer set of tools to help you navigate the Winnipeg housing market with confidence. (November 11, 2026)</p><ul><li>Accurate Canadian Mortgage Calculations: Mortgage payments are now calculated using the official Canadian semi-annual compounding method — the same standard used by banks across the country. Numbers you can trust.</li><li>Over 20 Color Themes: Make the calculator your own. Choose from more than 20 handcrafted color palettes — from classic navy to warm autumn tones — all designed to meet accessibility contrast standards.</li><li>Dark Mode &amp; Light Mode: Seamlessly toggle between dark and light mode at any time. Your preference is remembered across visits so the tool always looks the way you like it.</li><li>Unified WPEG Design: The calculator now shares the same polished header, footer, and brand identity as other WPEG tools — a consistent, professional experience across the entire WPEG family.</li><li>Winnipeg-Specific Cost Estimates: Get real-world context with estimated Winnipeg property tax rates, home heating costs, and home insurance — giving you a fuller picture of your true monthly housing costs.</li><li>CMHC Insurance Guidance: Automatically understand when mortgage insurance is required and how much it costs, based on your down payment and purchase price — with Canadian rules applied correctly.</li><li>Minimum Down Payment Rules: Canadian federal minimum down payment rules are now built right in. The calculator tells you the minimum you're required to put down based on the home's purchase price.</li><li>Mortgage Affordability Rating: See a plain-language affordability rating based on your gross monthly income. Understand at a glance whether a mortgage is comfortable, stretched, or beyond recommended limits.</li><li>Improved Reliability: Under the hood, we hardened every calculation against edge cases — zero values, unusual inputs, and extreme numbers all behave correctly. The tool is more stable and dependable than ever.</li></ul>]]></description>
+    </item>
+    <item>
+      <title>v1.1.0: Initial public release</title>
+      <link>https://mortgage.wpeg.app/changelog#v1.1.0</link>
+      <guid isPermaLink="true">https://mortgage.wpeg.app/changelog#v1.1.0</guid>
+      <pubDate>Thu, 01 Oct 2026 08:00:00 +0000</pubDate>
+      <description><![CDATA[<p>Initial public release of the Winnipeg Mortgage Calculator — a free tool for Winnipeg home buyers. (October 2026)</p><ul><li>Mortgage Payment Estimator: Enter your purchase price, down payment, amortization period, and interest rate to get an instant monthly payment estimate.</li><li>Winnipeg Fun Facts: Discover local housing insights and neighbourhood context alongside your mortgage results.</li></ul>]]></description>
+    </item>
+  </channel>
+</rss>

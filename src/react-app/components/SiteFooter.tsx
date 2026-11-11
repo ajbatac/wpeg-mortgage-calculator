@@ -162,6 +162,7 @@ export default function SiteFooter() {
                   { label: 'Mortgage Calculator', url: '/', internal: true },
                   { label: 'Payment Breakdown', url: '/#results', internal: true },
                   { label: 'Disclaimer & Rates', url: '/#disclaimer', internal: true },
+                  { label: 'Changelog', url: '/changelog', internal: true },
                 ]}
               />
               <FooterColumn title="Company" links={COMPANY_LINKS} />
@@ -195,15 +196,13 @@ export default function SiteFooter() {
               <Snowflake className="w-4 h-4 text-primary" aria-hidden="true" />
               Made in Winnipeg, Manitoba
             </p>
-            <a
-              href={`${PORTAL_URL}/changelog`}
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              to="/changelog"
               className="text-muted-foreground hover:text-primary transition-colors"
               aria-label={`Version ${APP_VERSION}: view the changelog`}
             >
               {APP_VERSION}
-            </a>
+            </Link>
           </div>
         </div>
       </div>

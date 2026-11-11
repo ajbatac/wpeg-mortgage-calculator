@@ -3,7 +3,8 @@ import { formatCurrency } from "./formatters.ts";
 
 // Winnipeg-specific property and benchmark data
 export const winnipegData: WinnipegPropertyData = {
-  averagePropertyTaxRate: 2.35, // Winnipeg's average property tax rate as percentage
+  averagePropertyTaxRate: 2.35, // Nominal municipal/school mill rate (~23.5 mills)
+  effectivePropertyTaxRate: 1.25, // Effective net residential rate on market value (accounting for Manitoba 45% portioning)
   averageInsuranceRate: 0.3, // Average home insurance as percentage of property value annually
   benchmarkHouseholdIncome: 85000, // Median Winnipeg annual household income in CAD
   currentInterestRates: {
@@ -18,6 +19,60 @@ export const winnipegData: WinnipegPropertyData = {
     geothermal: 80, // Monthly average for geothermal
   },
 };
+
+/**
+ * Calculates Manitoba Land Transfer Tax (LTT) plus standard registration fee.
+ * Manitoba statutory sliding scale:
+ * - $0 to $30,000: 0%
+ * - $30,001 to $90,000: 0.5% (max $300)
+ * - $90,001 to $150,000: 1.0% (max $600)
+ * - $150,001 to $200,000: 1.5% (max $750)
+ * - Over $200,000: 2.0%
+ * - Standard Manitoba Land Titles registration fee: $70
+ */
+export function calculateManitobaLandTransferTax(propertyValue: number): {
+  tax: number;
+  registrationFee: number;
+  total: number;
+} {
+  if (propertyValue <= 0) {
+    return { tax: 0, registrationFee: 0, total: 0 };
+  }
+  if (propertyValue <= 30000) {
+    return { tax: 0, registrationFee: 70, total: 70 };
+  }
+
+  let tax = 0;
+
+  // $30,001 - $90,000: 0.5% (max $300)
+  if (propertyValue > 30000) {
+    const tier1 = Math.min(propertyValue - 30000, 60000);
+    tax += tier1 * 0.005;
+  }
+  // $90,001 - $150,000: 1.0% (max $600)
+  if (propertyValue > 90000) {
+    const tier2 = Math.min(propertyValue - 90000, 60000);
+    tax += tier2 * 0.01;
+  }
+  // $150,001 - $200,000: 1.5% (max $750)
+  if (propertyValue > 150000) {
+    const tier3 = Math.min(propertyValue - 150000, 50000);
+    tax += tier3 * 0.015;
+  }
+  // Over $200,000: 2.0%
+  if (propertyValue > 200000) {
+    const tier4 = propertyValue - 200000;
+    tax += tier4 * 0.02;
+  }
+
+  const registrationFee = 70;
+  const roundedTax = Math.round(tax * 100) / 100;
+  return {
+    tax: roundedTax,
+    registrationFee,
+    total: Math.round((roundedTax + registrationFee) * 100) / 100,
+  };
+}
 
 /**
  * Calculates the statutory minimum down payment required in Canada:
@@ -127,7 +182,7 @@ export function calculateMortgage(data: MortgageCalculation): MortgageResult {
 
   // Winnipeg-specific costs
   const monthlyPropertyTax = propertyValue > 0
-    ? (propertyValue * (winnipegData.averagePropertyTaxRate / 100)) / 12
+    ? (propertyValue * (winnipegData.effectivePropertyTaxRate / 100)) / 12
     : 0;
 
   const monthlyInsurance = propertyValue > 0
@@ -141,13 +196,19 @@ export function calculateMortgage(data: MortgageCalculation): MortgageResult {
   const downPaymentPercent = propertyValue > 0 ? (downPayment / propertyValue) * 100 : 0;
   const minimumDownPayment = calculateMinimumDownPayment(propertyValue);
 
-  // Household income & GDS ratio calculation
+  // Household income & Canadian statutory GDS ratio calculation (PITH / Gross Monthly Income)
+  // PITH = Principal & Interest + Property Taxes + Heating. (Home insurance is excluded from underwriting GDS).
   const annualIncome = data.annualIncome && data.annualIncome > 0
     ? data.annualIncome
     : winnipegData.benchmarkHouseholdIncome;
   const monthlyIncome = Math.max(1, annualIncome / 12);
-  const gdsRatio = (totalMonthlyCost / monthlyIncome) * 100;
+  const monthlyPITH = monthlyPayment + monthlyPropertyTax + monthlyUtilities;
+  const gdsRatio = (monthlyPITH / monthlyIncome) * 100;
   const affordabilityRating = getAffordabilityRating(gdsRatio);
+
+  // Manitoba Land Transfer Tax & upfront cash calculation
+  const ltt = calculateManitobaLandTransferTax(propertyValue);
+  const closingCostsTotal = ltt.total + downPayment;
 
   // Compliance warnings
   const warnings: string[] = [];
@@ -196,6 +257,9 @@ export function calculateMortgage(data: MortgageCalculation): MortgageResult {
     downPaymentPercent: Math.round(downPaymentPercent * 100) / 100,
     minimumDownPayment: Math.round(minimumDownPayment * 100) / 100,
     cmhcInsurance: Math.round(cmhcInsurance * 100) / 100,
+    landTransferTax: ltt.total,
+    landTransferTaxOnly: ltt.tax,
+    closingCostsTotal: Math.round(closingCostsTotal * 100) / 100,
     gdsRatio: Math.round(gdsRatio * 10) / 10,
     affordabilityRating,
     warnings,

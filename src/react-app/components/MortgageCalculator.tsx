@@ -26,12 +26,14 @@ export default function MortgageCalculator() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Initialize with Winnipeg's current 5-year fixed benchmark rate
+  // Initialize with Winnipeg's current 5-year fixed benchmark rate and calculate on mount
   useEffect(() => {
-    setFormData((prev) => ({
-      ...prev,
+    const initialData: MortgageCalculation = {
+      ...INITIAL_FORM_DATA,
       interestRate: winnipegData.currentInterestRates.fixed5Year,
-    }));
+    };
+    setFormData(initialData);
+    setResult(calculateMortgage(initialData));
   }, []);
 
   const handleInputChange = useCallback(
@@ -87,19 +89,19 @@ export default function MortgageCalculator() {
           </div>
 
           <h2 className="text-3xl sm:text-5xl font-bold font-serif tracking-tight text-foreground mb-4 leading-tight">
-            Prairie Home Mortgage Insights
+            Winnipeg Mortgage Calculator
           </h2>
           <p className="text-base sm:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto mb-8">
-            Accurate mortgage estimates tailored for Winnipeg, Manitoba, incorporating local 2.35% property tax rates, Manitoba Hydro heating averages, and CMHC mortgage rules.
+            Accurate mortgage estimates tailored for Winnipeg, Manitoba, incorporating official Canadian semi-annual compounding, Manitoba Land Transfer Tax, and local homeownership benchmarks.
           </p>
 
           {/* Quick Info Badges */}
           <div className="flex flex-wrap justify-center gap-2.5">
             {[
-              { label: "Winnipeg Tax: 2.35%", icon: "🏙️" },
-              { label: "Manitoba Insurance (0.3%)", icon: "🛡️" },
+              { label: "Canadian Compounding", icon: "🍁" },
+              { label: "Winnipeg Tax (~1.25%)", icon: "🏙️" },
+              { label: "Manitoba LTT Included", icon: "🏛️" },
               { label: "Manitoba Hydro Estimates", icon: "⚡" },
-              { label: "CMHC Default Rules", icon: "🍁" },
             ].map((item, i) => (
               <span
                 key={i}
@@ -135,7 +137,7 @@ export default function MortgageCalculator() {
           </div>
 
           {/* Results Side */}
-          <div id="results" className="space-y-6">
+          <div id="results" className="space-y-6" aria-live="polite" aria-atomic="true">
             {result ? (
               <>
                 <MortgageBreakdown result={result} />

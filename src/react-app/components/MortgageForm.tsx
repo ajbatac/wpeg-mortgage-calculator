@@ -1,4 +1,4 @@
-import { Calculator, DollarSign, Percent, Clock, RotateCcw } from "lucide-react";
+import { Calculator, DollarSign, Percent, Clock, RotateCcw, Wallet } from "lucide-react";
 import type { MortgageCalculation, PropertyType, HeatingType } from "@/shared/types";
 import { winnipegData } from "@/shared/mortgageCalculator";
 
@@ -20,6 +20,8 @@ const PRESETS = [
   { label: "$1.1M", value: 1100000, downPayment: 220000 },
 ] as const;
 
+const DOWN_PAYMENT_PERCENT_PRESETS = [5, 10, 15, 20] as const;
+
 export default function MortgageForm({
   formData,
   onChange,
@@ -27,27 +29,40 @@ export default function MortgageForm({
   onReset,
   loading,
 }: MortgageFormProps) {
-  const downPaymentPercent = formData.propertyValue > 0
-    ? ((formData.downPayment / formData.propertyValue) * 100).toFixed(1)
-    : "0.0";
+  const currentDownPaymentPercent = formData.propertyValue > 0
+    ? ((formData.downPayment / formData.propertyValue) * 100)
+    : 0;
+
+  const handlePercentPresetClick = (percent: number) => {
+    if (formData.propertyValue <= 0) return;
+    const calculatedDownPayment = Math.round((formData.propertyValue * percent) / 100);
+    onChange("downPayment", calculatedDownPayment);
+  };
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-xl border border-gray-100 dark:border-gray-700 p-8">
+    <div className="bg-card rounded-3xl shadow-sm border border-border p-6 sm:p-8">
       <div className="flex items-center gap-3 mb-8">
-        <Calculator className="w-6 h-6 text-blue-600" aria-hidden="true" />
-        <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
-          Calculate Your Mortgage
-        </h2>
+        <div className="p-2.5 rounded-xl bg-primary/10 text-primary">
+          <Calculator className="w-5 h-5" aria-hidden="true" />
+        </div>
+        <div>
+          <h2 className="text-2xl font-bold font-serif text-foreground">
+            Calculate Your Mortgage
+          </h2>
+          <p className="text-xs text-muted-foreground mt-0.5">
+            Adjust inputs below to see Winnipeg payments & closing costs in real time
+          </p>
+        </div>
       </div>
 
       <div className="space-y-6">
         {/* Property Value */}
         <div>
-          <label htmlFor="propertyValue" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-            Property Value
+          <label htmlFor="propertyValue" className="block text-sm font-semibold text-foreground mb-2">
+            Property Value (Purchase Price)
           </label>
           <div className="relative">
-            <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" aria-hidden="true" />
+            <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" aria-hidden="true" />
             <input
               id="propertyValue"
               type="number"
@@ -57,45 +72,54 @@ export default function MortgageForm({
                 const val = Math.max(0, parseInt(e.target.value, 10) || 0);
                 onChange("propertyValue", val);
               }}
-              className="w-full pl-10 pr-4 py-3 border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 focus:scale-[1.01] shadow-sm"
+              className="w-full pl-10 pr-4 py-3 border border-border bg-background text-foreground rounded-xl focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all shadow-sm"
               placeholder="400,000"
             />
           </div>
 
           {/* Quick Property Value Pills */}
           <div className="mt-3">
-            <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">
-              Quick select (typical Winnipeg prices):
+            <p className="text-xs text-muted-foreground mb-2">
+              Typical Winnipeg home price benchmarks:
             </p>
             <div className="flex flex-wrap gap-2">
-              {PRESETS.map((preset) => (
-                <button
-                  key={preset.value}
-                  type="button"
-                  onClick={() => {
-                    onChange("propertyValue", preset.value);
-                    onChange("downPayment", preset.downPayment);
-                  }}
-                  className={`px-3 py-1.5 text-xs font-medium rounded-lg border transition-all duration-200 ${
-                    formData.propertyValue === preset.value
-                      ? "bg-blue-600 text-white border-blue-600 shadow-sm"
-                      : "bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-600 hover:border-blue-300 hover:text-blue-600 dark:hover:text-blue-400"
-                  }`}
-                >
-                  {preset.label}
-                </button>
-              ))}
+              {PRESETS.map((preset) => {
+                const isSelected = formData.propertyValue === preset.value;
+                return (
+                  <button
+                    key={preset.value}
+                    type="button"
+                    onClick={() => {
+                      onChange("propertyValue", preset.value);
+                      onChange("downPayment", preset.downPayment);
+                    }}
+                    className={`px-3 py-1.5 text-xs font-medium rounded-lg border transition-colors ${
+                      isSelected
+                        ? "bg-primary text-primary-foreground border-primary shadow-sm"
+                        : "bg-card text-muted-foreground border-border hover:border-primary/50 hover:text-foreground"
+                    }`}
+                  >
+                    {preset.label}
+                  </button>
+                );
+              })}
             </div>
           </div>
         </div>
 
         {/* Down Payment */}
         <div>
-          <label htmlFor="downPayment" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-            Down Payment
-          </label>
+          <div className="flex items-center justify-between mb-2">
+            <label htmlFor="downPayment" className="block text-sm font-semibold text-foreground">
+              Down Payment
+            </label>
+            <span className="text-xs font-semibold text-primary">
+              {currentDownPaymentPercent.toFixed(1)}% of price
+            </span>
+          </div>
+
           <div className="relative">
-            <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" aria-hidden="true" />
+            <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" aria-hidden="true" />
             <input
               id="downPayment"
               type="number"
@@ -105,22 +129,64 @@ export default function MortgageForm({
                 const val = Math.max(0, parseInt(e.target.value, 10) || 0);
                 onChange("downPayment", val);
               }}
-              className="w-full pl-10 pr-4 py-3 border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 focus:scale-[1.01] shadow-sm"
+              className="w-full pl-10 pr-4 py-3 border border-border bg-background text-foreground rounded-xl focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all shadow-sm"
               placeholder="80,000"
             />
           </div>
-          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-            {downPaymentPercent}% of property value
+
+          {/* Down Payment Quick Percent Chips */}
+          <div className="mt-2.5 flex items-center gap-2">
+            <span className="text-xs text-muted-foreground">Quick tiers:</span>
+            {DOWN_PAYMENT_PERCENT_PRESETS.map((pct) => (
+              <button
+                key={pct}
+                type="button"
+                onClick={() => handlePercentPresetClick(pct)}
+                className="px-2.5 py-1 text-xs rounded-md bg-muted/70 text-foreground hover:bg-primary hover:text-primary-foreground transition-colors border border-border"
+              >
+                {pct}%
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Household Annual Income */}
+        <div>
+          <div className="flex items-center justify-between mb-2">
+            <label htmlFor="annualIncome" className="block text-sm font-semibold text-foreground">
+              Annual Household Income (Optional)
+            </label>
+            <span className="text-xs text-muted-foreground">
+              Winnipeg median: $85,000
+            </span>
+          </div>
+          <div className="relative">
+            <Wallet className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" aria-hidden="true" />
+            <input
+              id="annualIncome"
+              type="number"
+              min="0"
+              value={formData.annualIncome ? formData.annualIncome : ""}
+              onChange={(e) => {
+                const val = e.target.value === "" ? undefined : Math.max(0, parseInt(e.target.value, 10) || 0);
+                onChange("annualIncome", val);
+              }}
+              className="w-full pl-10 pr-4 py-3 border border-border bg-background text-foreground rounded-xl focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all shadow-sm"
+              placeholder="85,000 (used for Canadian GDS affordability score)"
+            />
+          </div>
+          <p className="text-xs text-muted-foreground mt-1">
+            Calculates your Gross Debt Service (GDS) ratio against standard Canadian qualifying limits (32% - 39%).
           </p>
         </div>
 
         {/* Interest Rate */}
         <div>
-          <label htmlFor="interestRate" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-            Interest Rate (%)
+          <label htmlFor="interestRate" className="block text-sm font-semibold text-foreground mb-2">
+            Mortgage Interest Rate (%)
           </label>
           <div className="relative">
-            <Percent className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" aria-hidden="true" />
+            <Percent className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" aria-hidden="true" />
             <input
               id="interestRate"
               type="number"
@@ -132,86 +198,87 @@ export default function MortgageForm({
                 const val = Math.max(0, parseFloat(e.target.value) || 0);
                 onChange("interestRate", val);
               }}
-              className="w-full pl-10 pr-4 py-3 border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 focus:scale-[1.01] shadow-sm"
+              className="w-full pl-10 pr-4 py-3 border border-border bg-background text-foreground rounded-xl focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all shadow-sm"
               placeholder="4.84"
             />
           </div>
-          <div className="text-xs text-gray-500 dark:text-gray-400 mt-1 space-y-1">
-            <p>
-              Current Winnipeg rates: 1-year {winnipegData.currentInterestRates.fixed1Year}%, 5-year {winnipegData.currentInterestRates.fixed5Year}%
-            </p>
+          <div className="text-xs text-muted-foreground mt-1">
+            <span>
+              Winnipeg benchmark rates: 1-year {winnipegData.currentInterestRates.fixed1Year}%, 5-year {winnipegData.currentInterestRates.fixed5Year}%
+            </span>
           </div>
         </div>
 
         {/* Amortization Period */}
         <div>
-          <label htmlFor="amortizationYears" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+          <label htmlFor="amortizationYears" className="block text-sm font-semibold text-foreground mb-2">
             Amortization Period (Years)
           </label>
           <div className="relative">
-            <Clock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" aria-hidden="true" />
+            <Clock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" aria-hidden="true" />
             <select
               id="amortizationYears"
               value={formData.amortizationYears}
               onChange={(e) => onChange("amortizationYears", parseInt(e.target.value, 10))}
-              className="w-full pl-10 pr-4 py-3 border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white transition-all duration-200 focus:scale-[1.01] shadow-sm"
+              className="w-full pl-10 pr-4 py-3 border border-border bg-background text-foreground rounded-xl focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all shadow-sm"
             >
               {[15, 20, 25, 30, 35].map((years) => (
                 <option key={years} value={years}>
-                  {years} years
+                  {years} years {years > 25 ? "(requires 20% down or qualifying first-time build)" : ""}
                 </option>
               ))}
             </select>
           </div>
         </div>
 
-        {/* Property Type */}
-        <div>
-          <label htmlFor="propertyType" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-            Property Type
-          </label>
-          <select
-            id="propertyType"
-            value={formData.propertyType}
-            onChange={(e) => onChange("propertyType", e.target.value as PropertyType)}
-            className="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white transition-all duration-200 focus:scale-[1.01] shadow-sm"
-          >
-            <option value="single-family">Single Family Home</option>
-            <option value="condo">Condominium</option>
-            <option value="townhouse">Townhouse</option>
-            <option value="multi-family">Multi-Family</option>
-          </select>
-        </div>
+        {/* Property Type & Heating Type */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label htmlFor="propertyType" className="block text-sm font-semibold text-foreground mb-2">
+              Property Type
+            </label>
+            <select
+              id="propertyType"
+              value={formData.propertyType}
+              onChange={(e) => onChange("propertyType", e.target.value as PropertyType)}
+              className="w-full px-4 py-3 border border-border bg-background text-foreground rounded-xl focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all shadow-sm"
+            >
+              <option value="single-family">Single Family Home</option>
+              <option value="condo">Condominium</option>
+              <option value="townhouse">Townhouse</option>
+              <option value="multi-family">Multi-Family</option>
+            </select>
+          </div>
 
-        {/* Heating Type */}
-        <div>
-          <label htmlFor="heatingType" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-            Heating Type
-          </label>
-          <select
-            id="heatingType"
-            value={formData.heatingType}
-            onChange={(e) => onChange("heatingType", e.target.value as HeatingType)}
-            className="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white transition-all duration-200 focus:scale-[1.01] shadow-sm"
-          >
-            <option value="gas">Natural Gas</option>
-            <option value="electric">Electric</option>
-            <option value="oil">Oil</option>
-            <option value="geothermal">Geothermal</option>
-          </select>
+          <div>
+            <label htmlFor="heatingType" className="block text-sm font-semibold text-foreground mb-2">
+              Heating System
+            </label>
+            <select
+              id="heatingType"
+              value={formData.heatingType}
+              onChange={(e) => onChange("heatingType", e.target.value as HeatingType)}
+              className="w-full px-4 py-3 border border-border bg-background text-foreground rounded-xl focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all shadow-sm"
+            >
+              <option value="gas">Natural Gas (~$180/mo)</option>
+              <option value="electric">Electric (~$120/mo)</option>
+              <option value="oil">Oil (~$220/mo)</option>
+              <option value="geothermal">Geothermal (~$80/mo)</option>
+            </select>
+          </div>
         </div>
 
         {/* First Time Buyer */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 p-3 rounded-xl bg-muted/40 border border-border">
           <input
             type="checkbox"
             id="firstTimeBuyer"
             checked={formData.isFirstTimeBuyer}
             onChange={(e) => onChange("isFirstTimeBuyer", e.target.checked)}
-            className="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+            className="w-4 h-4 text-primary border-border rounded focus:ring-primary"
           />
-          <label htmlFor="firstTimeBuyer" className="text-sm font-semibold text-gray-700 dark:text-gray-300 cursor-pointer">
-            First-time home buyer (allows 30-yr amortization on qualifying purchases)
+          <label htmlFor="firstTimeBuyer" className="text-xs sm:text-sm font-medium text-foreground cursor-pointer">
+            First-time home buyer (allows 30-year amortization on newly constructed Canadian homes)
           </label>
         </div>
 
@@ -220,16 +287,16 @@ export default function MortgageForm({
           <button
             type="button"
             onClick={onReset}
-            className="flex-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 py-4 px-6 rounded-xl font-semibold text-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-all duration-200 shadow-md hover:shadow-lg flex items-center justify-center gap-2 cursor-pointer"
+            className="flex-1 px-4 py-3.5 rounded-xl border border-border bg-card text-foreground font-semibold text-sm sm:text-base hover:bg-muted/60 transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-sm"
           >
-            <RotateCcw className="w-5 h-5" aria-hidden="true" />
+            <RotateCcw className="w-4 h-4" aria-hidden="true" />
             Reset
           </button>
           <button
             type="button"
             onClick={onCalculate}
             disabled={loading}
-            className="flex-[2] bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-500 dark:to-indigo-500 text-white py-4 px-6 rounded-xl font-semibold text-lg hover:from-blue-700 hover:to-indigo-700 dark:hover:from-blue-600 dark:hover:to-indigo-600 transition-all duration-200 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+            className="flex-[2] px-6 py-3.5 rounded-xl bg-primary text-primary-foreground font-semibold text-sm sm:text-base hover:bg-primary/90 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? "Calculating..." : "Calculate Mortgage"}
           </button>

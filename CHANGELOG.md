@@ -84,6 +84,23 @@ Comprehensive architectural modernization, WPEG design system unification, Canad
 - **Files:** `AGENTS.md` & `DESIGN.md`
   - Documented engineering guidelines for AI agents and the unified WPEG design system token catalog.
 
+### 6. Design System Enforcement & Manitoba Closing Costs (Phase A & B)
+- **Files:** `src/react-app/components/MortgageForm.tsx`, `src/react-app/components/MortgageBreakdown.tsx`, `src/react-app/components/DonutChart.tsx`
+  - Stripped all hardcoded Tailwind blue, indigo, and gray classes; aligned all surfaces, borders, text, and active buttons with WPEG CSS custom property tokens (`bg-card`, `border-border`, `text-primary`, `bg-primary`, `focus:ring-primary`).
+  - Added Annual Household Income input field with Canadian GDS affordability qualification guidance.
+  - Added quick down payment percentage selector chips (5%, 10%, 15%, 20%).
+- **File:** `src/shared/mortgageCalculator.ts`
+  - Implemented and exported `calculateManitobaLandTransferTax(propertyValue: number)` calculating statutory graduated tiers (0% to $30k, 0.5% to $90k, 1.0% to $150k, 1.5% to $200k, 2.0% above) plus $70 land titles fee.
+  - Corrected property tax rate calculation to reflect Manitoba's 45% residential assessment portioning factor (effective ~1.25% market rate).
+  - Aligned Gross Debt Service (GDS) calculation strictly to Canadian PITH (Principal, Interest, Taxes, Heat), removing casualty insurance from the debt-service qualification ratio.
+- **File:** `src/react-app/components/WinnipegFunFacts.tsx`
+  - Replaced neon purple/pink gradients and emoji clutter with an editorial "Local Winnipeg Perspective" card grid adhering to anti-slop principles.
+- **Files:** `src/react-app/components/MortgageDisclaimer.tsx`, `index.html`
+  - Purged legacy "Prairie Home Calculator" references; unified branding and metadata to "Winnipeg Mortgage Calculator | WPEG.app" with canonical URL and social tags.
+- **File:** `src/react-app/components/MortgageCalculator.tsx`
+  - Triggered initial calculation on mount so users are greeted with real data rather than an empty placeholder.
+  - Added `aria-live="polite"` to the results container for screen reader accessibility.
+
 ---
 
 ## [v1.1.0] — 2026-10-01

@@ -46,13 +46,13 @@ export default function MortgageDisclaimer() {
           </p>
 
           <p>
-            <strong className="text-foreground">Limitation of Liability:</strong> Prairie Home Calculator and its creators disclaim all liability for any financial
+            <strong className="text-foreground">Limitation of Liability:</strong> Winnipeg Mortgage Calculator and its creators disclaim all liability for any financial
             decisions made based on information provided by this tool. Users assume full responsibility for verifying all information
             and seeking appropriate professional advice.
           </p>
 
           <p className="text-center font-medium text-foreground pt-4 border-t border-border">
-            For educational purposes only | © 2026 Prairie Home Calculator | All rights reserved.
+            For educational purposes only | © 2026 WPEG.app | All rights reserved.
           </p>
           <p className="text-center font-medium text-muted-foreground pt-1">
             This calculator is not intended to be used for tax planning or financial advice.

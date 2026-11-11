@@ -66,6 +66,20 @@ export default function SiteHeader({
               </div>
             </div>
             <div className="flex items-center gap-3 print:hidden">
+              <nav className="hidden md:flex items-center gap-2 mr-2">
+                <Link
+                  to="/"
+                  className="px-3 py-1.5 text-xs font-semibold rounded-lg text-foreground hover:bg-muted/70 transition-colors"
+                >
+                  Calculator
+                </Link>
+                <Link
+                  to="/changelog"
+                  className="px-3 py-1.5 text-xs font-semibold rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted/70 transition-colors"
+                >
+                  Changelog
+                </Link>
+              </nav>
               {children}
               <ColorThemeSelector />
               <DarkModeToggle />

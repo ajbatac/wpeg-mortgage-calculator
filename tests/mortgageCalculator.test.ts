@@ -5,6 +5,7 @@ import {
   calculateMinimumDownPayment,
   calculateCMHCInsurance,
   calculateMonthlyPayment,
+  calculateManitobaLandTransferTax,
   getAffordabilityRating,
 } from "../src/shared/mortgageCalculator.ts";
 import { formatCurrency, formatPercent } from "../src/shared/formatters.ts";
@@ -22,6 +23,32 @@ test("calculateMinimumDownPayment applies Canadian statutory tiers", () => {
   // $1.5M or more: 20%
   assert.equal(calculateMinimumDownPayment(1500000), 300000);
   assert.equal(calculateMinimumDownPayment(2000000), 400000);
+});
+
+test("calculateManitobaLandTransferTax applies statutory sliding scale", () => {
+  assert.equal(calculateManitobaLandTransferTax(0).total, 0);
+  assert.equal(calculateManitobaLandTransferTax(30000).tax, 0);
+  assert.equal(calculateManitobaLandTransferTax(30000).registrationFee, 70);
+
+  // $90,000: $30k exempt, $60k @ 0.5% = $300 + $70 = $370
+  const at90k = calculateManitobaLandTransferTax(90000);
+  assert.equal(at90k.tax, 300);
+  assert.equal(at90k.total, 370);
+
+  // $150,000: $300 + $60k @ 1.0% ($600) = $900 + $70 = $970
+  const at150k = calculateManitobaLandTransferTax(150000);
+  assert.equal(at150k.tax, 900);
+  assert.equal(at150k.total, 970);
+
+  // $200,000: $900 + $50k @ 1.5% ($750) = $1,650 + $70 = $1,720
+  const at200k = calculateManitobaLandTransferTax(200000);
+  assert.equal(at200k.tax, 1650);
+  assert.equal(at200k.total, 1720);
+
+  // $400,000: $1,650 + $200k @ 2.0% ($4,000) = $5,650 + $70 = $5,720
+  const at400k = calculateManitobaLandTransferTax(400000);
+  assert.equal(at400k.tax, 5650);
+  assert.equal(at400k.total, 5720);
 });
 
 test("calculateCMHCInsurance tiers and eligibility", () => {

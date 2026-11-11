@@ -33,6 +33,9 @@ export const MortgageResultSchema = z.object({
   downPaymentPercent: z.number(),
   minimumDownPayment: z.number(),
   cmhcInsurance: z.number(),
+  landTransferTax: z.number(),
+  landTransferTaxOnly: z.number(),
+  closingCostsTotal: z.number(),
   gdsRatio: z.number(),
   affordabilityRating: z.enum(["excellent", "good", "fair", "poor"]),
   warnings: z.array(z.string()),
@@ -42,6 +45,7 @@ export type MortgageResult = z.infer<typeof MortgageResultSchema>;
 
 export const WinnipegPropertyDataSchema = z.object({
   averagePropertyTaxRate: z.number(),
+  effectivePropertyTaxRate: z.number(),
   averageInsuranceRate: z.number(),
   benchmarkHouseholdIncome: z.number(),
   currentInterestRates: z.object({

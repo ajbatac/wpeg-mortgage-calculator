@@ -123,6 +123,19 @@ Comprehensive architectural modernization, WPEG design system unification, Canad
   - Updated CSP connect sources to permit Google Analytics 4 region endpoints and collectors.
   - Documented Manitoba Land Transfer Tax scale, Canadian payment frequency models, and net assessment benchmarks in machine-readable LLM documentation.
 
+### 9. Wikipedia-Style Citations & Official References
+- **Files:** `src/react-app/components/MortgageSources.tsx`, `src/react-app/components/MortgageCalculator.tsx`, `src/react-app/components/SiteHeader.tsx`, `src/react-app/components/SiteFooter.tsx`
+  - Added a dedicated Wikipedia-style numbered References & Sources section (`#sources`) verifying every calculation claim with direct links to primary government publications:
+    1. Interest Act (R.S.C., 1985, c. I-15), Section 6 (Canadian semi-annual compounding mandate)
+    2. Financial Consumer Agency of Canada (FCAC) down payment rules
+    3. CMHC loan-to-value mortgage default insurance cost schedules
+    4. Manitoba Revenue Act Part III graduated Land Transfer Tax scale and Land Titles registration fees
+    5. City of Winnipeg Assessment & Taxation Department residential 45% portioning factor and mill rates
+    6. Manitoba Hydro residential natural gas & electricity heating tariffs
+    7. CMHC & OSFI debt service ratio (GDS/TDS) PITH qualification guidelines
+    8. Bank of Canada chartered bank conventional mortgage rate series
+  - Added jump navigation links in the header and footer directly referencing `/#sources`.
+
 ---
 
 ## [v1.1.0] — 2026-10-01

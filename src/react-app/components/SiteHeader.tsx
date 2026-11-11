@@ -79,6 +79,12 @@ export default function SiteHeader({
                 >
                   Changelog
                 </Link>
+                <a
+                  href="/#sources"
+                  className="px-3 py-1.5 text-xs font-semibold rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted/70 transition-colors"
+                >
+                  Sources
+                </a>
               </nav>
               {children}
               <ColorThemeSelector />

@@ -8,6 +8,7 @@ import MortgageForm from "./MortgageForm";
 import MortgageBreakdown from "./MortgageBreakdown";
 import MortgageWarnings from "./MortgageWarnings";
 import WinnipegFunFacts from "./WinnipegFunFacts";
+import MortgageSources from "./MortgageSources";
 import MortgageDisclaimer from "./MortgageDisclaimer";
 
 const INITIAL_FORM_DATA: MortgageCalculation = {
@@ -172,10 +173,13 @@ export default function MortgageCalculator() {
           </div>
         </main>
 
-        {/* Winnipeg Fun Facts & What If */}
+        {/* Winnipeg Context */}
         {result && (
           <WinnipegFunFacts result={result} propertyValue={formData.propertyValue} />
         )}
+
+        {/* References & Official Sources */}
+        <MortgageSources />
 
         {/* Financial & Legal Disclaimer */}
         <MortgageDisclaimer />

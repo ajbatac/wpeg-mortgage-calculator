@@ -161,6 +161,7 @@ export default function SiteFooter() {
                 links={[
                   { label: 'Mortgage Calculator', url: '/', internal: true },
                   { label: 'Payment Breakdown', url: '/#results', internal: true },
+                  { label: 'Sources & References', url: '/#sources', internal: true },
                   { label: 'Disclaimer & Rates', url: '/#disclaimer', internal: true },
                   { label: 'Changelog', url: '/changelog', internal: true },
                 ]}

@@ -91,3 +91,4 @@ Comprehensive architectural modernization, WPEG design system unification, Canad
 ### Summary
 - Initial prototype release of the Winnipeg Mortgage Calculator.
 - Basic payment calculation, down payment and interest rate inputs, and initial Winnipeg contextual insights.
+

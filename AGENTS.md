@@ -68,3 +68,4 @@ Guidelines, architecture, and conventions for AI coding agents working on this c
 4. **WPEG Design System:**
    - Adhere to `DESIGN.md`. All buttons, cards, headers, and footers must match the WPEG family style (e.g. `SiteHeader`, `SiteFooter`).
    - Use theme variables (`theme-surface`, `theme-button`, `bg-card`, `text-primary`, etc.).
+

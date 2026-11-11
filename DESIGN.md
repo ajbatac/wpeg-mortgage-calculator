@@ -54,3 +54,4 @@ The application supports over 20 selectable themes with dynamic CSS variable swi
 - All themes enforce WCAG AA (minimum 4.5:1 contrast for normal text, 3:1 for large text).
 - Focus outlines are clearly rendered for keyboard navigators.
 - All forms use explicit HTML `<label>` elements and accessible `aria-*` attributes.
+

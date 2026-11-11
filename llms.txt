@@ -41,3 +41,4 @@
 
 - Estimates only; does not replace formal underwriting from a licensed mortgage broker or financial institution.
 - All figures update in real-time as users adjust down payment, amortization, interest rate, and income.
+

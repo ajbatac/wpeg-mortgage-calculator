@@ -101,6 +101,18 @@ Comprehensive architectural modernization, WPEG design system unification, Canad
   - Triggered initial calculation on mount so users are greeted with real data rather than an empty placeholder.
   - Added `aria-live="polite"` to the results container for screen reader accessibility.
 
+### 7. Reactive Interaction, Payment Schedules & Security Hardening (Phase C & D)
+- **Files:** `src/shared/types.ts`, `src/shared/mortgageCalculator.ts`, `src/react-app/components/MortgageForm.tsx`, `src/react-app/components/MortgageBreakdown.tsx`
+  - Added Canadian payment frequency schedules (`monthly`, `semi-monthly`, `bi-weekly`, `accelerated-bi-weekly`, `weekly`, `accelerated-weekly`) with interest-saving accelerated calculation logic.
+  - Added synchronized down payment range slider alongside percentage chips for seamless touch/desktop adjustments.
+  - Added amortization qualification validation for insured mortgages (<20% down).
+  - Integrated mobile viewport smooth scroll to `#results` upon calculation execution.
+- **File:** `src/react-app/components/ColorThemeSelector.tsx`
+  - Implemented full WAI-ARIA accessible keyboard menu navigation with `ArrowUp`, `ArrowDown`, `Home`, `End`, and focus-trapped dismissals (`Escape`, `Tab`).
+- **Files:** `public/_headers`, `index.html`
+  - Added Netlify security headers configuration (`CSP`, `HSTS`, `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, and asset cache policies).
+  - Optimized OpenGraph and Twitter social card tags and preconnected font origins.
+
 ---
 
 ## [v1.1.0] — 2026-10-01

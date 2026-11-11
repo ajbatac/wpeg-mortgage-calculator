@@ -1,5 +1,5 @@
-import { Calculator, DollarSign, Percent, Clock, RotateCcw, Wallet } from "lucide-react";
-import type { MortgageCalculation, PropertyType, HeatingType } from "@/shared/types";
+import { Calculator, DollarSign, Percent, Clock, RotateCcw, Wallet, Calendar } from "lucide-react";
+import type { MortgageCalculation, PropertyType, HeatingType, PaymentFrequency } from "@/shared/types";
 import { winnipegData } from "@/shared/mortgageCalculator";
 
 interface MortgageFormProps {
@@ -148,6 +148,20 @@ export default function MortgageForm({
               </button>
             ))}
           </div>
+
+          {/* Down Payment Slider */}
+          <div className="mt-3.5">
+            <input
+              type="range"
+              min="0"
+              max={formData.propertyValue > 0 ? formData.propertyValue : 1000000}
+              step={formData.propertyValue > 500000 ? 5000 : 1000}
+              value={formData.downPayment}
+              onChange={(e) => onChange("downPayment", parseInt(e.target.value, 10) || 0)}
+              className="w-full h-1.5 bg-muted rounded-lg appearance-none cursor-pointer accent-primary"
+              aria-label="Adjust down payment amount with slider"
+            />
+          </div>
         </div>
 
         {/* Household Annual Income */}
@@ -209,25 +223,57 @@ export default function MortgageForm({
           </div>
         </div>
 
-        {/* Amortization Period */}
-        <div>
-          <label htmlFor="amortizationYears" className="block text-sm font-semibold text-foreground mb-2">
-            Amortization Period (Years)
-          </label>
-          <div className="relative">
-            <Clock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" aria-hidden="true" />
-            <select
-              id="amortizationYears"
-              value={formData.amortizationYears}
-              onChange={(e) => onChange("amortizationYears", parseInt(e.target.value, 10))}
-              className="w-full pl-10 pr-4 py-3 border border-border bg-background text-foreground rounded-xl focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all shadow-sm"
-            >
-              {[15, 20, 25, 30, 35].map((years) => (
-                <option key={years} value={years}>
-                  {years} years {years > 25 ? "(requires 20% down or qualifying first-time build)" : ""}
-                </option>
-              ))}
-            </select>
+        {/* Amortization Period & Payment Frequency */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label htmlFor="amortizationYears" className="block text-sm font-semibold text-foreground mb-2">
+              Amortization Period
+            </label>
+            <div className="relative">
+              <Clock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" aria-hidden="true" />
+              <select
+                id="amortizationYears"
+                value={formData.amortizationYears}
+                onChange={(e) => onChange("amortizationYears", parseInt(e.target.value, 10))}
+                className="w-full pl-10 pr-4 py-3 border border-border bg-background text-foreground rounded-xl focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all shadow-sm"
+              >
+                {[15, 20, 25, 30, 35].map((years) => (
+                  <option key={years} value={years}>
+                    {years} years
+                  </option>
+                ))}
+              </select>
+            </div>
+            {currentDownPaymentPercent < 20 && formData.amortizationYears > 25 && !formData.isFirstTimeBuyer && (
+              <p className="text-xs text-amber-600 dark:text-amber-400 mt-1">
+                Notice: Insured mortgages require ≤25 years unless qualifying as a first-time buyer on new construction.
+              </p>
+            )}
+          </div>
+
+          <div>
+            <label htmlFor="paymentFrequency" className="block text-sm font-semibold text-foreground mb-2">
+              Payment Schedule
+            </label>
+            <div className="relative">
+              <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" aria-hidden="true" />
+              <select
+                id="paymentFrequency"
+                value={formData.paymentFrequency ?? "monthly"}
+                onChange={(e) => onChange("paymentFrequency", e.target.value as PaymentFrequency)}
+                className="w-full pl-10 pr-4 py-3 border border-border bg-background text-foreground rounded-xl focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all shadow-sm"
+              >
+                <option value="monthly">Monthly (12/yr)</option>
+                <option value="accelerated-bi-weekly">Accelerated Bi-Weekly (26/yr)</option>
+                <option value="bi-weekly">Regular Bi-Weekly (26/yr)</option>
+                <option value="semi-monthly">Semi-Monthly (24/yr)</option>
+                <option value="accelerated-weekly">Accelerated Weekly (52/yr)</option>
+                <option value="weekly">Regular Weekly (52/yr)</option>
+              </select>
+            </div>
+            <p className="text-xs text-muted-foreground mt-1">
+              Accelerated schedules make 1 extra month's payment/yr to pay off debt faster.
+            </p>
           </div>
         </div>
 

@@ -72,15 +72,25 @@ export default function MortgageBreakdown({ result }: MortgageBreakdownProps) {
         {/* 4-Item Grid */}
         <div className="grid grid-cols-2 gap-3.5 mb-6">
           <div className="p-4 bg-muted/40 border border-border rounded-2xl">
-            <p className="text-xs font-medium text-muted-foreground mb-1">Mortgage Payment</p>
-            <p className="text-lg sm:text-xl font-bold text-foreground">
-              {formatCurrency(result.monthlyPayment)}
+            <p className="text-xs font-medium text-muted-foreground mb-1 capitalize">
+              {result.paymentFrequency === "monthly" ? "Mortgage Payment" : `${result.paymentFrequency.replace("-", " ")} Payment`}
             </p>
+            <p className="text-lg sm:text-xl font-bold text-foreground">
+              {formatCurrency(result.paymentAmount)}
+            </p>
+            {result.paymentFrequency !== "monthly" && (
+              <p className="text-[11px] text-muted-foreground mt-0.5">
+                ({formatCurrency(result.monthlyPayment)}/mo eq.)
+              </p>
+            )}
           </div>
           <div className="p-4 bg-muted/40 border border-border rounded-2xl">
             <p className="text-xs font-medium text-muted-foreground mb-1">Property Tax (Est.)</p>
             <p className="text-lg sm:text-xl font-bold text-foreground">
               {formatCurrency(result.monthlyPropertyTax)}
+            </p>
+            <p className="text-[11px] text-muted-foreground mt-0.5">
+              ~1.25% effective net mill rate
             </p>
           </div>
           <div className="p-4 bg-muted/40 border border-border rounded-2xl">
@@ -88,11 +98,17 @@ export default function MortgageBreakdown({ result }: MortgageBreakdownProps) {
             <p className="text-lg sm:text-xl font-bold text-foreground">
               {formatCurrency(result.monthlyInsurance)}
             </p>
+            <p className="text-[11px] text-muted-foreground mt-0.5">
+              ~$100–$140/mo Winnipeg avg
+            </p>
           </div>
           <div className="p-4 bg-muted/40 border border-border rounded-2xl">
             <p className="text-xs font-medium text-muted-foreground mb-1">Heating & Hydro</p>
             <p className="text-lg sm:text-xl font-bold text-foreground">
               {formatCurrency(result.monthlyUtilities)}
+            </p>
+            <p className="text-[11px] text-muted-foreground mt-0.5">
+              Winter baseline estimate
             </p>
           </div>
         </div>

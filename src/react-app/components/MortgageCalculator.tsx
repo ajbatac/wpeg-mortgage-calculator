@@ -15,6 +15,7 @@ const INITIAL_FORM_DATA: MortgageCalculation = {
   downPayment: 80000,
   interestRate: 4.84,
   amortizationYears: 25,
+  paymentFrequency: "monthly",
   propertyType: "single-family",
   heatingType: "gas",
   isFirstTimeBuyer: false,
@@ -59,6 +60,13 @@ export default function MortgageCalculator() {
 
       const calculationResult = calculateMortgage(formData);
       setResult(calculationResult);
+
+      // Smooth scroll to results on mobile viewports (< 1024px)
+      if (typeof window !== "undefined" && window.innerWidth < 1024) {
+        requestAnimationFrame(() => {
+          document.getElementById("results")?.scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+      }
     } catch {
       setError("Failed to calculate mortgage. Please check your inputs.");
     } finally {

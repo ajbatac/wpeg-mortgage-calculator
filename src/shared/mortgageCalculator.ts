@@ -180,6 +180,39 @@ export function calculateMortgage(data: MortgageCalculation): MortgageResult {
     data.amortizationYears
   );
 
+  // Payment frequency calculation (Canadian mortgage options)
+  const frequency = data.paymentFrequency ?? "monthly";
+  let paymentAmount = monthlyPayment;
+  let paymentsPerYear = 12;
+
+  switch (frequency) {
+    case "semi-monthly":
+      paymentAmount = monthlyPayment / 2;
+      paymentsPerYear = 24;
+      break;
+    case "bi-weekly":
+      paymentAmount = (monthlyPayment * 12) / 26;
+      paymentsPerYear = 26;
+      break;
+    case "accelerated-bi-weekly":
+      paymentAmount = monthlyPayment / 2;
+      paymentsPerYear = 26;
+      break;
+    case "weekly":
+      paymentAmount = (monthlyPayment * 12) / 52;
+      paymentsPerYear = 52;
+      break;
+    case "accelerated-weekly":
+      paymentAmount = monthlyPayment / 4;
+      paymentsPerYear = 52;
+      break;
+    case "monthly":
+    default:
+      paymentAmount = monthlyPayment;
+      paymentsPerYear = 12;
+      break;
+  }
+
   // Winnipeg-specific costs
   const monthlyPropertyTax = propertyValue > 0
     ? (propertyValue * (winnipegData.effectivePropertyTaxRate / 100)) / 12
@@ -247,6 +280,9 @@ export function calculateMortgage(data: MortgageCalculation): MortgageResult {
 
   return {
     monthlyPayment: Math.round(monthlyPayment * 100) / 100,
+    paymentAmount: Math.round(paymentAmount * 100) / 100,
+    paymentFrequency: frequency,
+    paymentsPerYear,
     principalAmount: Math.round(rawPrincipal * 100) / 100,
     totalLoanAmount: Math.round(totalLoanAmount * 100) / 100,
     totalInterest: Math.round(totalInterest * 100) / 100,

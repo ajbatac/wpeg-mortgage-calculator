@@ -8,11 +8,23 @@ export const HEATING_TYPES = ["gas", "electric", "oil", "geothermal"] as const;
 export const HeatingTypeSchema = z.enum(HEATING_TYPES);
 export type HeatingType = z.infer<typeof HeatingTypeSchema>;
 
+export const PAYMENT_FREQUENCIES = [
+  "monthly",
+  "semi-monthly",
+  "bi-weekly",
+  "accelerated-bi-weekly",
+  "weekly",
+  "accelerated-weekly",
+] as const;
+export const PaymentFrequencySchema = z.enum(PAYMENT_FREQUENCIES);
+export type PaymentFrequency = z.infer<typeof PaymentFrequencySchema>;
+
 export const MortgageCalculationSchema = z.object({
   propertyValue: z.number().min(0, "Property value cannot be negative"),
   downPayment: z.number().min(0, "Down payment cannot be negative"),
   interestRate: z.number().min(0).max(25, "Interest rate must be between 0% and 25%"),
   amortizationYears: z.number().int().min(1).max(35, "Amortization must be between 1 and 35 years"),
+  paymentFrequency: PaymentFrequencySchema.default("monthly").optional(),
   propertyType: PropertyTypeSchema,
   heatingType: HeatingTypeSchema,
   isFirstTimeBuyer: z.boolean(),
@@ -23,6 +35,9 @@ export type MortgageCalculation = z.infer<typeof MortgageCalculationSchema>;
 
 export const MortgageResultSchema = z.object({
   monthlyPayment: z.number(),
+  paymentAmount: z.number(),
+  paymentFrequency: PaymentFrequencySchema,
+  paymentsPerYear: z.number(),
   principalAmount: z.number(),
   totalLoanAmount: z.number(),
   totalInterest: z.number(),

@@ -150,6 +150,32 @@ test("calculateMortgage handles down payment below statutory minimum", () => {
   assert.ok(result.warnings.some((w) => w.includes("below the Canadian statutory minimum")));
 });
 
+test("calculateMortgage computes payment frequency variations", () => {
+  const baseData = {
+    propertyValue: 400000,
+    downPayment: 80000,
+    interestRate: 4.84,
+    amortizationYears: 25,
+    propertyType: "single-family" as const,
+    heatingType: "gas" as const,
+    isFirstTimeBuyer: false,
+  };
+
+  const monthly = calculateMortgage({ ...baseData, paymentFrequency: "monthly" });
+  const biWeekly = calculateMortgage({ ...baseData, paymentFrequency: "bi-weekly" });
+  const acceleratedBiWeekly = calculateMortgage({ ...baseData, paymentFrequency: "accelerated-bi-weekly" });
+
+  assert.equal(monthly.paymentsPerYear, 12);
+  assert.equal(monthly.paymentAmount, monthly.monthlyPayment);
+
+  assert.equal(biWeekly.paymentsPerYear, 26);
+  assert.equal(acceleratedBiWeekly.paymentsPerYear, 26);
+  // Accelerated bi-weekly pays monthly / 2
+  assert.equal(acceleratedBiWeekly.paymentAmount, Math.round((monthly.monthlyPayment / 2) * 100) / 100);
+  // Accelerated bi-weekly payment is slightly higher than standard bi-weekly
+  assert.ok(acceleratedBiWeekly.paymentAmount > biWeekly.paymentAmount);
+});
+
 test("formatters handle values safely", () => {
   assert.equal(formatCurrency(1234), "$1,234");
   assert.equal(formatCurrency(0), "$0");

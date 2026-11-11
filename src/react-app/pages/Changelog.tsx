@@ -60,12 +60,18 @@ const RELEASES: Release[] = [
       },
       {
         icon: <TrendingUp className="w-5 h-5" />,
-        title: 'Minimum Down Payment Rules',
+        title: 'Manitoba Land Transfer Tax & Closing Costs',
         description:
-          "Canadian federal minimum down payment rules are now built right in. The calculator tells you the minimum you're required to put down based on the home's purchase price.",
+          'Get a full breakdown of estimated cash needed on closing day, including Manitoba graduated Land Transfer Tax (LTT) and Land Titles registration fees.',
       },
       {
         icon: <Zap className="w-5 h-5" />,
+        title: 'Flexible Payment Schedules',
+        description:
+          'Compare monthly, semi-monthly, bi-weekly, and accelerated bi-weekly schedules to see how paying more frequently can pay down your loan faster.',
+      },
+      {
+        icon: <Shield className="w-5 h-5" />,
         title: 'Mortgage Affordability Rating',
         description:
           'See a plain-language affordability rating based on your gross monthly income. Understand at a glance whether a mortgage is comfortable, stretched, or beyond recommended limits.',

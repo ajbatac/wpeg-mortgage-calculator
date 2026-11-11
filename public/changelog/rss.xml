@@ -7,6 +7,13 @@
     <language>en-ca</language>
     <atom:link href="https://mortgage.wpeg.app/changelog/rss.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>v1.3.0: Primary source citations, Manitoba Land Transfer Tax, and payment schedules</title>
+      <link>https://mortgage.wpeg.app/changelog#v1.3.0</link>
+      <guid isPermaLink="true">https://mortgage.wpeg.app/changelog#v1.3.0</guid>
+      <pubDate>Wed, 11 Nov 2026 22:15:00 +0000</pubDate>
+      <description><![CDATA[<p>A major accuracy and transparency release adding official primary source citations, Manitoba Land Transfer Tax closing calculations, Canadian payment schedules, interactive down payment controls, and full keyboard accessibility. (November 11, 2026)</p><ul><li>Official Primary Source Citations: Every statutory calculation, interest formula, tax bracket, and lending policy is now verified and cited directly to primary Canadian and Manitoba government legislation, complete with official reference links.</li><li>Manitoba Land Transfer Tax &amp; Cash to Close: Plan ahead with complete visibility into completion day costs. The calculator now automatically computes Manitoba's graduated Land Transfer Tax sliding scale and Land Titles registration fees.</li><li>Flexible Canadian Payment Schedules: Switch seamlessly between Monthly, Semi-Monthly, Bi-Weekly, Accelerated Bi-Weekly, Weekly, and Accelerated Weekly schedules to see how paying more frequently can pay down your loan years earlier.</li><li>Synchronized Down Payment Slider &amp; Tiers: Fine-tune your down payment with a fluid interactive range slider or jump instantly to standard Canadian lending tiers (5%, 10%, 15%, 20%) with a single tap.</li><li>Household Income &amp; Affordability Check: Enter your actual annual household income to evaluate your Gross Debt Service (GDS) ratio against real Canadian lending thresholds (32%–39%).</li><li>WAI-ARIA Keyboard Accessibility &amp; Contrast: The entire application is now fully keyboard navigable, including full arrow-key and escape-key support for the 20+ color theme menu, screen reader live announcements, and calibrated contrast.</li></ul>]]></description>
+    </item>
+    <item>
       <title>v1.2.0: Unified design, Canadian semi-annual compounding, and smart cost estimates</title>
       <link>https://mortgage.wpeg.app/changelog#v1.2.0</link>
       <guid isPermaLink="true">https://mortgage.wpeg.app/changelog#v1.2.0</guid>

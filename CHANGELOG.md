@@ -4,6 +4,55 @@ This document records technical details, architectural decisions, file paths, co
 
 ---
 
+## [v1.3.0] — 2026-11-11
+
+### Summary
+Addition of primary source citations, Manitoba Land Transfer Tax (LTT) calculation, flexible payment frequency calculations, interactive down payment slider, WAI-ARIA keyboard navigation, and Netlify security headers.
+
+### 1. Manitoba Land Transfer Tax & Cash to Close
+- **File:** `src/shared/mortgageCalculator.ts`
+  - Implemented statutory graduated Manitoba Land Transfer Tax calculation:
+    ```typescript
+    export function calculateManitobaLandTransferTax(propertyValue: number): {
+      tax: number;
+      registrationFee: number;
+      total: number;
+    } {
+      if (propertyValue <= 0) return { tax: 0, registrationFee: 0, total: 0 };
+      if (propertyValue <= 30000) return { tax: 0, registrationFee: 70, total: 70 };
+      let tax = 0;
+      if (propertyValue > 30000) tax += Math.min(propertyValue - 30000, 60000) * 0.005;
+      if (propertyValue > 90000) tax += Math.min(propertyValue - 90000, 60000) * 0.01;
+      if (propertyValue > 150000) tax += Math.min(propertyValue - 150000, 50000) * 0.015;
+      if (propertyValue > 200000) tax += (propertyValue - 200000) * 0.02;
+      const registrationFee = 70;
+      const roundedTax = Math.round(tax * 100) / 100;
+      return { tax: roundedTax, registrationFee, total: Math.round((roundedTax + registrationFee) * 100) / 100 };
+    }
+    ```
+  - Added upfront cash requirement breakdown card in `src/react-app/components/MortgageBreakdown.tsx` combining down payment, LTT, and land title fees.
+
+### 2. Payment Frequency Options
+- **Files:** `src/shared/types.ts`, `src/shared/mortgageCalculator.ts`
+  - Added support for 6 Canadian payment frequencies (`monthly`, `semi-monthly`, `bi-weekly`, `accelerated-bi-weekly`, `weekly`, `accelerated-weekly`).
+  - Added accelerated frequency calculation generating 1 extra monthly payment per year to pay down principal faster.
+
+### 3. Wikipedia-Style Citations & Primary Sources
+- **Files:** `src/react-app/components/MortgageSources.tsx`, `src/react-app/components/MortgageCalculator.tsx`
+  - Created Wikipedia-style numbered references section (`#sources`) with primary government links to the Canadian Interest Act, FCAC down payment rules, CMHC insurance schedules, and Manitoba Revenue Act scales.
+
+### 4. Interactive Down Payment Controls & a11y Focus Trap
+- **Files:** `src/react-app/components/MortgageForm.tsx`, `src/react-app/components/ColorThemeSelector.tsx`
+  - Integrated interactive range slider synced with down payment dollars and percentage selector chips (5%, 10%, 15%, 20%).
+  - Added WAI-ARIA menu keyboard trap with `ArrowUp`, `ArrowDown`, `Home`, `End`, `Tab`, and `Escape`.
+
+### 5. Security Headers, Structured Data & SEO
+- **Files:** `public/_headers`, `index.html`, `public/site.webmanifest`
+  - Created Netlify security headers configuration (`CSP`, `HSTS`, `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`).
+  - Injected `schema.org/WebApplication` JSON-LD structured data and updated PWA manifest metadata.
+
+---
+
 ## [v1.2.0] — 2026-11-11
 
 ### Summary

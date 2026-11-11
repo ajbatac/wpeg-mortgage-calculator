@@ -1,5 +1,5 @@
 import { Link } from 'react-router';
-import { Rss, ArrowLeft, Sparkles, Zap, Shield, Palette, Sun, MapPin, Calculator, TrendingUp, CheckCircle2 } from 'lucide-react';
+import { Rss, ArrowLeft, Sparkles, Zap, Shield, Palette, Sun, MapPin, Calculator, TrendingUp, CheckCircle2, Landmark, Sliders, BookOpen } from 'lucide-react';
 import SiteHeader from '@/react-app/components/SiteHeader';
 import SiteFooter from '@/react-app/components/SiteFooter';
 import { APP_VERSION } from '@/shared/constants';
@@ -15,10 +15,56 @@ interface Release {
 
 const RELEASES: Release[] = [
   {
-    version: 'v1.2.0',
+    version: 'v1.3.0',
     date: 'November 11, 2026',
     label: 'Latest',
     labelColor: 'bg-primary text-primary-foreground',
+    summary:
+      'A major accuracy and transparency release adding official primary source citations, Manitoba Land Transfer Tax closing calculations, Canadian payment schedules, interactive down payment controls, and full keyboard accessibility.',
+    highlights: [
+      {
+        icon: <BookOpen className="w-5 h-5" />,
+        title: 'Official Primary Source Citations',
+        description:
+          'Every statutory calculation, interest formula, tax bracket, and lending policy is now verified and cited directly to primary Canadian and Manitoba government legislation, complete with official reference links.',
+      },
+      {
+        icon: <Landmark className="w-5 h-5" />,
+        title: 'Manitoba Land Transfer Tax & Cash to Close',
+        description:
+          "Plan ahead with complete visibility into completion day costs. The calculator now automatically computes Manitoba's graduated Land Transfer Tax sliding scale and Land Titles registration fees.",
+      },
+      {
+        icon: <Zap className="w-5 h-5" />,
+        title: 'Flexible Canadian Payment Schedules',
+        description:
+          'Switch seamlessly between Monthly, Semi-Monthly, Bi-Weekly, Accelerated Bi-Weekly, Weekly, and Accelerated Weekly schedules to see how paying more frequently can pay down your loan years earlier.',
+      },
+      {
+        icon: <Sliders className="w-5 h-5" />,
+        title: 'Synchronized Down Payment Slider & Tiers',
+        description:
+          'Fine-tune your down payment with a fluid interactive range slider or jump instantly to standard Canadian lending tiers (5%, 10%, 15%, 20%) with a single tap.',
+      },
+      {
+        icon: <Calculator className="w-5 h-5" />,
+        title: 'Household Income & Affordability Check',
+        description:
+          'Enter your actual annual household income to evaluate your Gross Debt Service (GDS) ratio against real Canadian lending thresholds (32%–39%).',
+      },
+      {
+        icon: <CheckCircle2 className="w-5 h-5" />,
+        title: 'WAI-ARIA Keyboard Accessibility & Contrast',
+        description:
+          'The entire application is now fully keyboard navigable, including full arrow-key and escape-key support for the 20+ color theme menu, screen reader live announcements, and calibrated contrast.',
+      },
+    ],
+  },
+  {
+    version: 'v1.2.0',
+    date: 'November 11, 2026',
+    label: 'Previous',
+    labelColor: 'bg-muted text-muted-foreground',
     summary:
       'A major quality-of-life update bringing a unified WPEG look and feel, smarter calculations, and a richer set of tools to help you navigate the Winnipeg housing market with confidence.',
     highlights: [

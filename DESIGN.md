@@ -55,3 +55,10 @@ The application supports over 20 selectable themes with dynamic CSS variable swi
 - Focus outlines are clearly rendered for keyboard navigators.
 - All forms use explicit HTML `<label>` elements and accessible `aria-*` attributes.
 
+## 6. Citations & References Pattern
+
+- Primary sources are presented in a dedicated Wikipedia-style References section (`#sources`).
+- Citations use bracketed index numbers (`[1]`, `[2]`, etc.) in `text-primary font-semibold select-none`.
+- External government links open in a new tab (`target="_blank"` with `rel="nofollow noopener noreferrer"`).
+- Verification date statement is anchored at the base of the list.
+

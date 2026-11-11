@@ -69,3 +69,10 @@ Guidelines, architecture, and conventions for AI coding agents working on this c
    - Adhere to `DESIGN.md`. All buttons, cards, headers, and footers must match the WPEG family style (e.g. `SiteHeader`, `SiteFooter`).
    - Use theme variables (`theme-surface`, `theme-button`, `bg-card`, `text-primary`, etc.).
 
+5. **Manitoba Land Transfer Tax (LTT) & Closing Costs:**
+   - Graduated sliding scale: 0% ($0–$30k), 0.5% ($30k–$90k), 1.0% ($90k–$150k), 1.5% ($150k–$200k), and 2.0% (over $200k) + $70 Land Titles registration fee.
+   - Always present upfront cash required at closing alongside monthly housing costs.
+
+6. **Primary Source Citations (`#sources`):**
+   - Every financial formula, tax rate, and lending regulation must be cited in `MortgageSources.tsx` with primary government legislation links.
+

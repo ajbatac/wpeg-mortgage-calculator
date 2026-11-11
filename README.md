@@ -29,3 +29,12 @@ The **Winnipeg Mortgage Calculator** ([mortgage.wpeg.app](https://mortgage.wpeg.
 - `npm run preview` — Locally preview the production build.
 - `npm test` — Run the automated test suite.
 - `npm run lint` — Validate code styling and TypeScript consistency.
+
+---
+
+### Version 1.3.0 Enhancements
+
+- **Manitoba Land Transfer Tax (LTT) Calculation:** Automatically estimates statutory graduated land transfer taxes and registration fees for complete cash-to-close visibility.
+- **Flexible Canadian Payment Schedules:** Compare monthly, semi-monthly, bi-weekly, accelerated bi-weekly, and weekly payment options.
+- **Official References & Citations:** Every formula and statutory policy is cited directly to primary Canadian federal and Manitoba provincial publications.
+- **Enhanced Keyboard Navigation:** Fully accessible WAI-ARIA theme picker and screen reader live announcements.
